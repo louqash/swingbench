@@ -1,6 +1,6 @@
 # --- Basics -----------------------------------------------------------------
 cmake_minimum_required(VERSION 3.28)   # a safe modern baseline
-project(pendulum_sim CXX)              # project name + language (CXX = C++)
+project(swingbench CXX)                # project name + language (CXX = C++)
 
 # Always emit build/compile_commands.json so clangd (nvim) knows the include
 # paths (SFML, etc.). Baked in here so it survives clearing the build dir.
@@ -31,5 +31,5 @@ target_compile_options(pendulum PRIVATE -Wall -Wextra)
 target_compile_features(pendulum PRIVATE cxx_std_20)
 
 # --- The runnable app -------------------------------------------------------
-add_executable(sim src/main.cpp src/renderer.cpp)
-target_link_libraries(sim PRIVATE SFML::Graphics pendulum)
+add_executable(swingbench src/main.cpp src/renderer.cpp)
+target_link_libraries(swingbench PRIVATE SFML::Graphics pendulum)

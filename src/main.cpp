@@ -12,7 +12,7 @@ int main()
 {
   sf::ContextSettings settings;
   settings.antiAliasingLevel = 8;
-  sf::RenderWindow window( sf::VideoMode( { 1200, 900 } ), "Pendulum Simulation",
+  sf::RenderWindow window( sf::VideoMode( { 1200, 900 } ), "swingbench",
                            sf::Style::Default, sf::State::Windowed, settings );
   Pendulum main_pendulum(2);
   Renderer renderer(window, PIXELS_PER_METER);
