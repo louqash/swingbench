@@ -36,10 +36,8 @@ int main()
     );
     sf::sleep(sleep_time);
 
-    // TODO(louqash): your energy calculations go here — the gauges render
-    // whatever these hold, in Joules.
-    double potential_energy = 0.0;
-    double kinetic_energy = 0.0;
+    double potential_energy = main_pendulum.potential_energy();
+    double kinetic_energy = main_pendulum.kinetic_energy();
 
     renderer.draw(main_pendulum, potential_energy, kinetic_energy);
 	}

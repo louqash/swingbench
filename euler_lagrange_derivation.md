@@ -48,7 +48,7 @@ $$T = \tfrac{1}{2} m v^2 \qquad\Longrightarrow\qquad T = \tfrac{1}{2} m_1 v_1^2 
 $$V = m g h, \qquad h_1 = -y_1, \quad h_2 = -y_2$$
 
 $$V = g (m_1 h_1 + m_2 h_2)$$
-
+$$V = -g (m_1 y_1 + m_2 y_2)$$
 ## Lagrangian
 
 $$L = T - V$$

@@ -8,6 +8,7 @@
 const double MATERIAL_DENSITY = 0.1; // kg per meter
 const double FIRST_ARM_LENGTH = 0.5; // meters
 const double delta_LENGTH = 0.1;     // meters
+const double g = 9.8;
 
 Pendulum::Pendulum(int n) {
     std::srand(std::time(nullptr));
@@ -48,7 +49,6 @@ DoublePendulumDerivatives lagrange_euler_for_2_arms(
   double sigma_2 = (m_2 * l_1 * l_2 * cos_t1_t2)/(m_2 * l_2 * l_2);
   double sigma_1_by_cos = (m_2 * l_1 * l_2)/((m_1+m_2) * l_1 * l_1);
   double sigma_2_by_cos = (m_2 * l_1 * l_2)/(m_2 * l_2 * l_2);
-  double g = 9.8;
   double sin_t1 = std::sin(theta_1);
   double sin_t2 = std::sin(theta_2);
 
@@ -131,4 +131,38 @@ void Pendulum::step(double dt) {
   angles[1] += average.d_theta_2;
   angular_velocities[0] += average.d_omega_1;
   angular_velocities[1] += average.d_omega_2;
+}
+
+double Pendulum::kinetic_energy() const {
+  double m_1 = masses[0];
+  double m_2 = masses[1];
+  double l_1 = lengths[0];
+  double l_2 = lengths[1];
+  double omega_1 = angular_velocities[0];
+  double omega_2 = angular_velocities[1];
+  double theta_1 = angles[0];
+  double theta_2 = angles[1];
+  return (
+    0.5 * m_1 * l_1*l_1 * omega_1*omega_1 +
+    0.5 * m_2 * (
+      l_1*l_1 * omega_1*omega_1 +
+      l_2*l_2 * omega_2*omega_2 +
+      2*l_1*l_2*omega_1*omega_2*std::cos(theta_1 - theta_2)
+    )
+  );
+}
+
+double Pendulum::potential_energy() const {
+  double m_1 = masses[0];
+  double m_2 = masses[1];
+  double l_1 = lengths[0];
+  double l_2 = lengths[1];
+  double theta_1 = angles[0];
+  double theta_2 = angles[1];
+  double y_1 = l_1 - l_1 * std::cos(theta_1);
+  double y_2 = l_2 - l_2 * std::cos(theta_2);
+  return g * (
+    (m_1 + m_2) * y_1 +
+    m_2 * y_2
+  );
 }
