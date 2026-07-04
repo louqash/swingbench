@@ -1,0 +1,362 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{lmodern}
+\usepackage{tikz}
+\setcounter{secnumdepth}{0}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\fontsize{16}{19.2}\selectfont\bfseries Euler--Lagrange derivation (3-arm pendulum)}
+\end{center}
+
+\section{Setup}
+
+Pivot at the origin. Generalized coordinates: the absolute angles $\theta_1, \theta_2$, $\theta_3$.
+Screen convention: $(0,0)$ is the top-left corner, so $y$ increases downward.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    \pgfmathsetmacro{\thA}{35}
+    \pgfmathsetmacro{\thB}{65}
+    \pgfmathsetmacro{\thC}{15}
+    \pgfmathsetmacro{\lA}{3.2}
+    \pgfmathsetmacro{\lB}{2.6}
+    \pgfmathsetmacro{\lC}{2.0}
+    \pgfmathsetmacro{\pax}{\lA*sin(\thA)}
+    \pgfmathsetmacro{\pay}{-\lA*cos(\thA)}
+    \pgfmathsetmacro{\pbx}{\pax + \lB*sin(\thB)}
+    \pgfmathsetmacro{\pby}{\pay - \lB*cos(\thB)}
+    \pgfmathsetmacro{\pcx}{\pbx + \lC*sin(\thC)}
+    \pgfmathsetmacro{\pcy}{\pby - \lC*cos(\thC)}
+
+    % ceiling with hatching
+    \draw (-1.2, 0) -- (1.2, 0);
+    \foreach \i in {0,...,7} {
+    \draw[line width=0.5pt] ({-1.2 + \i*0.3}, 0) -- ({-1.2 + \i*0.3 + 0.25}, 0.25);
+    }
+
+    % dashed vertical reference lines
+    \draw[dashed, gray] (0, 0) -- (0, -2.0);
+    \draw[dashed, gray] (\pax, \pay) -- (\pax, \pay - 1.9);
+    \draw[dashed, gray] (\pbx, \pby) -- (\pbx, \pby - 1.9);
+
+    % angle arcs (measured from the downward vertical)
+    \draw[line width=0.7pt] (0, -1.4) arc[start angle=-90, end angle={-90 + \thA}, radius=1.4];
+    \node at ({1.8*sin(\thA/2)}, {-1.8*cos(\thA/2)}) {$\theta_1$};
+    \draw[line width=0.7pt] (\pax, \pay - 1.1) arc[start angle=-90, end angle={-90 + \thB}, radius=1.1];
+    \node at ({\pax + 1.5*sin(\thB/2)}, {\pay - 1.5*cos(\thB/2)}) {$\theta_2$};
+    \draw[line width=0.7pt] (\pbx, \pby - 1.1) arc[start angle=-90, end angle={-90 + \thC}, radius=1.1];
+    \node at ({\pbx + 1.5*sin(\thC/2)}, {\pby - 1.5*cos(\thC/2)}) {$\theta_3$};
+
+    % arms
+    \draw[line width=1.2pt] (0, 0) -- (\pax, \pay);
+    \draw[line width=1.2pt] (\pax, \pay) -- (\pbx, \pby);
+    \draw[line width=1.2pt] (\pbx, \pby) -- (\pcx, \pcy);
+
+    % arm length labels (offset perpendicular to each arm)
+    \node at ({\pax/2 + 0.35*cos(\thA)}, {\pay/2 + 0.35*sin(\thA)}) {$l_1$};
+    \node at ({(\pax + \pbx)/2 + 0.35*cos(\thB)}, {(\pay + \pby)/2 + 0.35*sin(\thB)}) {$l_2$};
+    \node at ({(\pbx + \pcx)/2 + 0.35*cos(\thC)}, {(\pby + \pcy)/2 + 0.35*sin(\thC)}) {$l_3$};
+
+    % pivot and masses
+    \fill (0, 0) circle[radius=0.08];
+    \node[anchor=east] at (-0.35, -0.35) {$(x_0, y_0)$};
+    \fill (\pax, \pay) circle[radius=0.16];
+    \node[anchor=east] at (\pax - 0.3, \pay) {$m_1 \; (x_1, y_1)$};
+    \fill (\pbx, \pby) circle[radius=0.16];
+    \node[anchor=west] at (\pbx + 0.3, \pby) {$m_2 \; (x_2, y_2)$};
+    \fill (\pcx, \pcy) circle[radius=0.16];
+    \node[anchor=west] at (\pcx + 0.3, \pcy) {$m_3 \; (x_3, y_3)$};
+\end{tikzpicture}
+\end{center}
+
+\section{Positions}
+\[ x_1 = x_0 + l_1 \sin\theta_1 \qquad y_1 = y_0 + l_1 \cos\theta_1 \]
+\[ x_2 = x_1 + l_2 \sin\theta_2 \qquad y_2 = y_1 + l_2 \cos\theta_2 \]
+\[ x_3 = x_2 + l_3 \sin\theta_3 \qquad y_3 = y_2 + l_3 \cos\theta_3 \]
+
+\section{Velocities}
+
+\[ \dot{x}_1 = l_1 \cos\theta_1 \dot{\theta}_1 \qquad \dot{y}_1 = -l_1 \sin\theta_1 \dot{\theta}_1 \]
+
+\[ v_1 = \sqrt{\dot{x}_1^2 + \dot{y}_1^2} \qquad v_1^2 = \dot{x}_1^2 + \dot{y}_1^2 \]
+
+\[ \dot{x}_2 = \dot{x}_1 + l_2 \cos\theta_2 \dot{\theta}_2 \qquad \dot{y}_2 = \dot{y}_1 - l_2 \sin\theta_2 \dot{\theta}_2 \]
+
+\[ v_2 = \sqrt{\dot{x}_2^2 + \dot{y}_2^2} \qquad v_2^2 = \dot{x}_2^2 + \dot{y}_2^2 \]
+
+\[ \dot{x}_3 = \dot{x}_2 + l_3 \cos\theta_3 \dot{\theta}_3 \qquad \dot{y}_3 = \dot{y}_2 - l_3 \sin\theta_3 \dot{\theta}_3 \]
+
+\[ v_3 = \sqrt{\dot{x}_3^2 + \dot{y}_3^2} \qquad v_3^2 = \dot{x}_3^2 + \dot{y}_3^2 \]
+
+\section{Kinetic energy}
+
+\[ T = \frac{1}{2} m v^2 \qquad \Longrightarrow \qquad T = \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2 + \frac{1}{2} m_3 v_3^2 \]
+
+\section{Potential energy}
+
+\[ V = m g h, \qquad h_1 = -y_1, \quad h_2 = -y_2, \quad h_3 = -y_3 \]
+
+\[ V = g (m_1 h_1 + m_2 h_2 + m_3 h_3) \]
+
+\[ V = -g (m_1 y_1 + m_2 y_2 + m_3 y_3) \]
+
+\section{Lagrangian}
+
+\[ L = T - V \]
+
+\[ L = \frac{1}{2} (m_1 v_1^2 + m_2 v_2^2 + m_3 v_3^2) + g (m_1 y_1 + m_2 y_2 + m_3 y_3) \]
+
+\[ L = \frac{1}{2} \left( m_1 (\dot{x}_1^2 + \dot{y}_1^2) + m_2 (\dot{x}_2^2 + \dot{y}_2^2) + m_3 (\dot{x}_3^2 + \dot{y}_3^2) \right) + g (m_1 y_1 + m_2 y_2 + m_3 y_3) \]
+
+Substituting the velocities:
+
+\begin{align*}
+L &= \frac{1}{2} m_1 \left( (l_1 \cos\theta_1 \dot{\theta}_1)^2 + (-l_1 \sin\theta_1 \dot{\theta}_1)^2 \right) \\
+    &\quad + \frac{1}{2} m_2 \left( (\dot{x}_1 + l_2 \cos\theta_2 \dot{\theta}_2)^2 + (\dot{y}_1 - l_2 \sin\theta_2 \dot{\theta}_2)^2 \right) \\
+    &\quad + \frac{1}{2} m_3 \left( (\dot{x}_2 + l_3 \cos\theta_3 \dot{\theta}_3)^2 + (\dot{y}_2 - l_3 \sin\theta_3 \dot{\theta}_3)^2 \right) \\
+    &\quad + g (m_1 y_1 + m_2 y_2 + m_3 y_3)
+\end{align*}
+
+\begin{align*}
+L &= \frac{1}{2} m_1 \left( (l_1 \cos\theta_1 \dot{\theta}_1)^2 + (-l_1 \sin\theta_1 \dot{\theta}_1)^2 \right) \\
+    &\quad + \frac{1}{2} m_2 \left( (l_1 \cos\theta_1 \dot{\theta}_1 + l_2 \cos\theta_2 \dot{\theta}_2)^2 + (-l_1 \sin\theta_1 \dot{\theta}_1 - l_2 \sin\theta_2 \dot{\theta}_2)^2 \right) \\
+    &\quad + \frac{1}{2} m_3 \left( (\dot{x}_1 + l_2 \cos\theta_2 \dot{\theta}_2 + l_3 \cos\theta_3 \dot{\theta}_3)^2 + (\dot{y}_1 - l_2 \sin\theta_2 \dot{\theta}_2 - l_3 \sin\theta_3 \dot{\theta}_3)^2 \right) \\
+    &\quad + g \left( m_1 (y_0 + l_1 \cos\theta_1) + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) + m_3 (y_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \right)
+\end{align*}
+
+\begin{align*}
+L &= \frac{1}{2} m_1 \left( (l_1 \cos\theta_1 \dot{\theta}_1)^2 + (-l_1 \sin\theta_1 \dot{\theta}_1)^2 \right) \\
+    &\quad + \frac{1}{2} m_2 \left( (l_1 \cos\theta_1 \dot{\theta}_1 + l_2 \cos\theta_2 \dot{\theta}_2)^2 + (-l_1 \sin\theta_1 \dot{\theta}_1 - l_2 \sin\theta_2 \dot{\theta}_2)^2 \right) \\
+    &\quad + \frac{1}{2} m_3 \big( (l_1 \cos\theta_1 \dot{\theta}_1 + l_2 \cos\theta_2 \dot{\theta}_2 + l_3 \cos\theta_3 \dot{\theta}_3)^2 \\
+    &\quad\quad\quad\quad + (-l_1 \sin\theta_1 \dot{\theta}_1 - l_2 \sin\theta_2 \dot{\theta}_2 - l_3 \sin\theta_3 \dot{\theta}_3)^2 \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+    &\quad\quad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big)
+\end{align*}
+
+Expanding the squares:
+
+$(a+b+c)(a+b+c) = a^2 + a b + a c + a b + b^2 + b c + a c + b c + c^2 = a^2 + 2 a b + b^2 + 2 b c + c^2 + 2 a c$
+
+\begin{align*}
+L &= \frac{1}{2} m_1 \left( l_1^2 \cos^2\theta_1 \dot{\theta}_1^2 + l_1^2 \sin^2\theta_1 \dot{\theta}_1^2 \right) \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \cos^2\theta_1 \dot{\theta}_1^2 + 2 \cdot l_1 \cos\theta_1 \dot{\theta}_1 l_2 \cos\theta_2 \dot{\theta}_2 + l_2^2 \cos^2\theta_2 \dot{\theta}_2^2 \\
+        &\qquad\qquad\quad + l_1^2 \sin^2\theta_1 \dot{\theta}_1^2 + 2 \cdot l_1 \sin\theta_1 \dot{\theta}_1 l_2 \sin\theta_2 \dot{\theta}_2 + l_2^2 \sin^2\theta_2 \dot{\theta}_2^2 \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \cos^2\theta_1 \dot{\theta}_1^2 + l_2^2 \cos^2\theta_2 \dot{\theta}_2^2 + l_3^2 \cos^2\theta_3 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 \cos\theta_1 \dot{\theta}_1 l_2 \cos\theta_2 \dot{\theta}_2 + 2 \cdot l_1 \cos\theta_1 \dot{\theta}_1 l_3 \cos\theta_3 \dot{\theta}_3 \\
+        &\qquad\qquad\quad + 2 \cdot l_2 \cos\theta_2 \dot{\theta}_2 l_3 \cos\theta_3 \dot{\theta}_3 \\
+        &\qquad\qquad\quad + l_1^2 \sin^2\theta_1 \dot{\theta}_1^2 + l_2^2 \sin^2\theta_2 \dot{\theta}_2^2 + l_3^2 \sin^2\theta_3 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 \sin\theta_1 \dot{\theta}_1 l_2 \sin\theta_2 \dot{\theta}_2 + 2 \cdot l_1 \sin\theta_1 \dot{\theta}_1 l_3 \sin\theta_3 \dot{\theta}_3 \\
+        &\qquad\qquad\quad + 2 \cdot l_2 \sin\theta_2 \dot{\theta}_2 l_3 \sin\theta_3 \dot{\theta}_3 \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big)
+\end{align*}
+
+\begin{align*}
+L &= \frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \left( \cos^2\theta_1 + \sin^2\theta_1 \right) \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 (\cos^2\theta_1 + \sin^2\theta_1) + l_2^2 \dot{\theta}_2^2 (\cos^2\theta_2 + \sin^2\theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (\cos\theta_1 \cos\theta_2 + \sin\theta_1 \sin\theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 (\cos^2\theta_1 + \sin^2\theta_1) + l_2^2 \dot{\theta}_2^2 (\cos^2\theta_2 + \sin^2\theta_2) + l_3^2 \dot{\theta}_3^2 (\cos^2\theta_3 + \sin^2\theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (\cos\theta_1 \cos\theta_2 + \sin\theta_1 \sin\theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 (\cos\theta_1 \cos\theta_3 + \sin\theta_1 \sin\theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 (\cos\theta_2 \cos\theta_3 + \sin\theta_2 \sin\theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big)
+\end{align*}
+\\
+Using $\cos^2 + \sin^2 = 1$ and $\cos\theta_1 \cos\theta_2 + \sin\theta_1 \sin\theta_2 = \cos(\theta_1 - \theta_2)$:
+
+\begin{align*}
+L &= \frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + l_3^2 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big)
+\end{align*}
+
+\section{Euler--Lagrange}
+
+\[ \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{q}} \right) - \frac{\partial L}{\partial q} = 0 \]
+
+\subsection{For $\theta_1$}
+
+\[ \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_1}} \right) - \frac{\partial L}{\partial \theta_1} = 0 \]
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_1} = \frac{\partial}{\partial \theta_1} \Biggl[
+    &\frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + l_3^2 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big) \Biggr]
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_1} &= \frac{1}{2} m_2 \big(-2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \big)\\
+    &\quad + \frac{1}{2} m_3 \big( -2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+        &\qquad\quad - 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \big) \\
+    &\quad + g \big(- m_1 (l_1 \sin\theta_1) - m_2 (l_1 \sin\theta_1) - m_3 (l_1 \sin\theta_1) \big)
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_1} &= -m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\quad - m_3 \big( l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+        &\qquad\quad + l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \big) \\
+    &\quad - g l_1 (m_1 + m_2 + m_3) \sin\theta_1
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_1} = \frac{\partial}{\partial \dot\theta_1} \Biggl[
+    &\frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + l_3^2 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big) \Biggr]
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_1} &= m_1 l_1^2 \dot{\theta}_1 \\
+    &\quad + \frac{1}{2} m_2 \big( 2 \cdot l_1^2 \dot{\theta}_1 + 2 \cdot l_1 l_2 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( 2 \cdot l_1^2 \dot{\theta}_1 + 2 \cdot l_1 l_2 \dot{\theta}_2 \cos(\theta_1 - \theta_2) + 2 \cdot l_1 l_3 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \big) \\
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_1} &= m_1 l_1^2 \dot{\theta}_1 \\
+    &\quad + m_2 \big( l_1^2 \dot{\theta}_1 + l_1 l_2 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + m_3 \big( l_1^2 \dot{\theta}_1 + l_1 l_2 \dot{\theta}_2 \cos(\theta_1 - \theta_2) + l_1 l_3 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \big) \\
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_1}} \right) &= 
+    \frac{d}{dt} \Bigl[ m_1 l_1^2 \dot{\theta}_1 \\
+    &\quad + m_2 \big( l_1^2 \dot{\theta}_1 + l_1 l_2 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + m_3 \big( l_1^2 \dot{\theta}_1 + l_1 l_2 \dot{\theta}_2 \cos(\theta_1 - \theta_2) + l_1 l_3 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \big) \Bigr]
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_1}} \right) &= 
+    m_1 l_1^2 \ddot{\theta}_1 \\
+    &\quad + m_2 \big( l_1^2 \ddot{\theta}_1 + l_1 l_2 (\ddot{\theta}_2 \cos(\theta_1 - \theta_2) - \dot{\theta}_2 \sin(\theta_1 - \theta_2)(\dot\theta_1 - \dot\theta_2)) \big) \\
+    &\quad + m_3 \big( l_1^2 \ddot{\theta}_1 \\
+    &\qquad\quad + l_1 l_2 (\ddot{\theta}_2 \cos(\theta_1 - \theta_2) - \dot{\theta}_2 \sin(\theta_1 - \theta_2)(\dot\theta_1 - \dot\theta_2)) \\
+    &\qquad\quad + l_1 l_3 (\ddot{\theta}_3 \cos(\theta_1 - \theta_3) - \dot{\theta}_3 \sin(\theta_1 - \theta_3)(\dot\theta_1 - \dot\theta_3))\big) \\
+\end{align*}
+
+\[ \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_1}} \right) - \frac{\partial L}{\partial \theta_1} = 0 \]
+
+\begin{align*}
+  0 =& \ m_1 l_1^2 \ddot{\theta}_1 \\
+     &+ m_2 \Big( l_1^2 \ddot{\theta}_1 + l_1 l_2 \big[ \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - \dot{\theta}_2 \sin(\theta_1 - \theta_2)(\dot\theta_1 - \dot\theta_2) \big] \Big) \\
+     &+ m_3 \Big( l_1^2 \ddot{\theta}_1 \\
+     &\qquad\quad + l_1 l_2 \big[ \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - \dot{\theta}_2 \sin(\theta_1 - \theta_2)(\dot\theta_1 - \dot\theta_2) \big] \\
+     &\qquad\quad + l_1 l_3 \big[ \ddot{\theta}_3 \cos(\theta_1 - \theta_3) - \dot{\theta}_3 \sin(\theta_1 - \theta_3)(\dot\theta_1 - \dot\theta_3) \big] \Big) \\
+     &- \Bigg( - m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &\qquad\quad - m_3 \Big[ l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &\qquad\qquad\qquad + l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \Big] \\
+     &\qquad\quad - g l_1 (m_1 + m_2 + m_3) \sin\theta_1 \Bigg)
+\end{align*}
+
+\begin{align*}
+  0 =& \ m_1 l_1^2 \ddot{\theta}_1 \\
+     &+ m_2 l_1^2 \ddot{\theta}_1 + m_2 l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - m_2 l_1 l_2 \dot{\theta}_2 \sin(\theta_1 - \theta_2)(\dot\theta_1 - \dot\theta_2) \\
+     &+ m_3 l_1^2 \ddot{\theta}_1 \\
+     &+ m_3 l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) - m_3 l_1 l_2 \dot{\theta}_2 \sin(\theta_1 - \theta_2)(\dot\theta_1 - \dot\theta_2) \\
+     &+ m_3 l_1 l_3 \ddot{\theta}_3 \cos(\theta_1 - \theta_3) - m_3 l_1 l_3 \dot{\theta}_3 \sin(\theta_1 - \theta_3)(\dot\theta_1 - \dot\theta_3) \\
+     &+ m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_3 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+     &+ g l_1 (m_1 + m_2 + m_3) \sin\theta_1
+\end{align*}
+
+\begin{align*}
+  0 =& \ m_1 l_1^2 \ddot{\theta}_1 + m_2 l_1^2 \ddot{\theta}_1 + m_3 l_1^2 \ddot{\theta}_1 \\
+     &+ m_2 l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+     &- m_2 l_1 l_2 \dot{\theta}_1\dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_2 l_1 l_2 \dot{\theta}_2\dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_3 l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+     &- m_3 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_3 l_1 l_2 \dot{\theta}_2 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_3 l_1 l_3 \ddot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+     &- m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+     &+ m_3 l_1 l_3 \dot{\theta}_3 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+     &+ m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_3 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+     &+ m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+     &+ g l_1 (m_1 + m_2 + m_3) \sin\theta_1
+\end{align*}
+
+\begin{align*}
+  0 =& \ m_1 l_1^2 \ddot{\theta}_1 + m_2 l_1^2 \ddot{\theta}_1 + m_3 l_1^2 \ddot{\theta}_1 \\
+     &+ m_2 \Big[ l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+     &\qquad+ l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) \Big] \\
+     &+ m_3 \Big[ l_1 l_3 \ddot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+     &\qquad+ l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+     &\qquad+ l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) \\
+     &\qquad+ l_1 l_3 \dot{\theta}_3^2 \sin(\theta_1 - \theta_3) \Big] \\
+     &+ g l_1 (m_1 + m_2 + m_3) \sin\theta_1
+\end{align*}
+
+Solution for $\theta_1$
+\begin{align*}
+    (m_1 + m_2 + m_3) l_1^2 \ddot{\theta}_1 + (m_2 + m_3) l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+     + \,  m_3 l_1 l_3 \ddot{\theta}_3 \cos(\theta_1 - \theta_3) = (-m_2 - m_3) l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) \\
+     - m_3 l_1 l_3 \dot{\theta}_3^2 \sin(\theta_1 - \theta_3) - g l_1 (m_1 + m_2 + m_3) \sin\theta_1
+\end{align*}
+
+\subsection{For $\theta_2$}
+
+\[ \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_2}} \right) - \frac{\partial L}{\partial \theta_2} = 0 \]
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_2} = \frac{\partial}{\partial \theta_2} \Biggl[
+    &\frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + l_3^2 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big) \Biggr]
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_2} = 
+    &\frac{1}{2} m_2 \Big(2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (-\sin(\theta_1 - \theta_2) \cdot (-1)) \Big) \\
+    &+ \frac{1}{2} m_3 \Big(2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (-\sin(\theta_1 - \theta_2) \cdot (-1)) \\
+        &\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 (-\sin(\theta_2 - \theta_3) \cdot (-1)) \Big) \\
+    &\quad + g \Big( m_2 (l_2 (-\sin\theta_2) + m_3 l_2 (-\sin\theta_2) \Big) 
+\end{align*}
+
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_2} = \frac{\partial}{\partial \dot\theta_2} \Biggl[
+    &\frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + l_3^2 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big) \Biggr]
+\end{align*}
+
+\end{document}

@@ -5,7 +5,9 @@ window so you can watch it swing.
 
 This is a learning project. I'm using it to work through Lagrangian mechanics
 properly (deriving the equations of motion by hand — see
-[euler_lagrange_derivation_2_arms.md](euler_lagrange_derivation_2_arms.md)) and, over time,
+[euler_lagrange_derivation_2_arms.pdf](euler_lagrange_derivation_2_arms.pdf),
+source in [the .tex file](euler_lagrange_derivation_2_arms.tex); rebuild with
+`latexmk -pdf`) and, over time,
 to practise performance-oriented numerical C++: integrators, floating-point
 behaviour, dense linear algebra, SIMD, threading, benchmarking. The simulator
 is mostly an excuse to have a concrete problem to do all of that on.
