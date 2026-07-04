@@ -67,21 +67,68 @@ void Pendulum::step(double dt) {
   if(n_segments() != 2){
     return;
   }
+  double m_1 = masses[0];
+  double m_2 = masses[1];
+  double l_1 = lengths[0];
+  double l_2 = lengths[1];
+  double omega_1 = angular_velocities[0];
+  double omega_2 = angular_velocities[1];
+  double theta_1 = angles[0];
+  double theta_2 = angles[1];
 
-  // explicit Euler
-  DoublePendulumDerivatives derivatives = lagrange_euler_for_2_arms(
-    masses[0],
-    masses[1],
-    lengths[0],
-    lengths[1],
-    angular_velocities[0],
-    angular_velocities[1],
-    angles[0],
-    angles[1]
+  // RK4
+  double dt_2 = dt / 2.;
+  DoublePendulumDerivatives k1 = lagrange_euler_for_2_arms(
+    m_1,
+    m_2,
+    l_1,
+    l_2,
+    omega_1,
+    omega_2,
+    theta_1,
+    theta_2
+  );
+  DoublePendulumDerivatives k2 = lagrange_euler_for_2_arms(
+    m_1,
+    m_2,
+    l_1,
+    l_2,
+    omega_1 + k1.d_omega_1*dt_2,
+    omega_2 + k1.d_omega_2*dt_2,
+    theta_1 + k1.d_theta_1*dt_2,
+    theta_2 + k1.d_theta_2*dt_2
+  );
+  DoublePendulumDerivatives k3 = lagrange_euler_for_2_arms(
+    m_1,
+    m_2,
+    l_1,
+    l_2,
+    omega_1 + k2.d_omega_1*dt_2,
+    omega_2 + k2.d_omega_2*dt_2,
+    theta_1 + k2.d_theta_1*dt_2,
+    theta_2 + k2.d_theta_2*dt_2
+  );
+  DoublePendulumDerivatives k4 = lagrange_euler_for_2_arms(
+    m_1,
+    m_2,
+    l_1,
+    l_2,
+    omega_1 + k3.d_omega_1*dt,
+    omega_2 + k3.d_omega_2*dt,
+    theta_1 + k3.d_theta_1*dt,
+    theta_2 + k3.d_theta_2*dt
   );
 
-  angles[0] += derivatives.d_theta_1 * dt;
-  angles[1] += derivatives.d_theta_2 * dt;
-  angular_velocities[0] += derivatives.d_omega_1 * dt;
-  angular_velocities[1] += derivatives.d_omega_2 * dt;
+  double dt_6 = dt / 6.;
+  DoublePendulumDerivatives average = {
+    dt_6 * (k1.d_theta_1 + 2*k2.d_theta_1 + 2*k3.d_theta_1 + k4.d_theta_1),
+    dt_6 * (k1.d_theta_2 + 2*k2.d_theta_2 + 2*k3.d_theta_2 + k4.d_theta_2),
+    dt_6 * (k1.d_omega_1 + 2*k2.d_omega_1 + 2*k3.d_omega_1 + k4.d_omega_1),
+    dt_6 * (k1.d_omega_2 + 2*k2.d_omega_2 + 2*k3.d_omega_2 + k4.d_omega_2),
+  };
+
+  angles[0] += average.d_theta_1;
+  angles[1] += average.d_theta_2;
+  angular_velocities[0] += average.d_omega_1;
+  angular_velocities[1] += average.d_omega_2;
 }
