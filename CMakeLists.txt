@@ -31,5 +31,5 @@ target_compile_options(pendulum PRIVATE -Wall -Wextra)
 target_compile_features(pendulum PRIVATE cxx_std_20)
 
 # --- The runnable app -------------------------------------------------------
-add_executable(sim src/main.cpp)
+add_executable(sim src/main.cpp src/renderer.cpp)
 target_link_libraries(sim PRIVATE SFML::Graphics pendulum)
