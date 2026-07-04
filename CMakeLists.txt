@@ -21,6 +21,9 @@ FetchContent_Declare(SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG 3.1.0
     GIT_SHALLOW ON
+    # SFML hard-codes high-DPI off on macOS — patch it back on. Harmless
+    # elsewhere (the file is only compiled on macOS).
+    PATCH_COMMAND ${CMAKE_COMMAND} -P ${CMAKE_SOURCE_DIR}/cmake/patch_sfml_highdpi.cmake
     EXCLUDE_FROM_ALL
     SYSTEM)
 FetchContent_MakeAvailable(SFML)

@@ -11,7 +11,9 @@
 // energy values are passed in and rendered as-is.
 class Renderer {
 public:
-  Renderer(sf::RenderWindow& window, float pixels_per_meter);
+  // ui_scale: framebuffer pixels per design pixel (2 on retina, 1 elsewhere)
+  Renderer(sf::RenderWindow& window, float pixels_per_meter,
+           float ui_scale = 1.f);
 
   void draw(const Pendulum& pendulum,
             double potential_energy,
@@ -20,6 +22,7 @@ public:
 private:
   sf::RenderWindow& window_;
   float ppm_;
+  float ui_;
   sf::Vector2f pivot_;
   sf::Font font_;
   bool has_font_ = false;
@@ -29,6 +32,8 @@ private:
   // Running range shared by both gauges so their heights are comparable.
   double energy_min_ = 0.0;
   double energy_max_ = 0.0;
+
+  float px(float design_value) const { return design_value * ui_; }
 
   void drawGrid();
   void drawTrail();
