@@ -339,10 +339,18 @@ Solution for $\theta_1$
 
 \begin{align*}
     \frac{\partial L}{\partial \theta_2} = 
-    &\frac{1}{2} m_2 \Big(2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (-\sin(\theta_1 - \theta_2) \cdot (-1)) \Big) \\
-    &+ \frac{1}{2} m_3 \Big(2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (-\sin(\theta_1 - \theta_2) \cdot (-1)) \\
-        &\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 (-\sin(\theta_2 - \theta_3) \cdot (-1)) \Big) \\
-    &\quad + g \Big( m_2 (l_2 (-\sin\theta_2) + m_3 l_2 (-\sin\theta_2) \Big) 
+    &\frac{1}{2} m_2 \Big(2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (-\sin(\theta_1 - \theta_2)) \cdot (-1) \Big) \\
+    &+ \frac{1}{2} m_3 \Big(2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 (-\sin(\theta_1 - \theta_2)) \cdot (-1) \\
+        &\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 (-\sin(\theta_2 - \theta_3)) \Big) \\
+    &\quad + g \Big( m_2 l_2 (-\sin\theta_2) + m_3 l_2 (-\sin\theta_2) \Big) 
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_2} = 
+    &\quad m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &+ m_3 \Big(l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+        &\qquad\quad - l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \Big) \\
+    &\quad + g \Big( m_2 l_2 (-\sin\theta_2) + m_3 l_2 (-\sin\theta_2) \Big) 
 \end{align*}
 
 
@@ -358,5 +366,274 @@ Solution for $\theta_1$
         &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
         &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big) \Biggr]
 \end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_2} =&\quad \frac{1}{2} m_2 \big( 2 \cdot l_2^2 \dot{\theta}_2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \Big( 2 \cdot l_2^2 \dot{\theta}_2 \\
+        &\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \cos(\theta_1 - \theta_2) \\
+        &\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \Big) \\
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_2} =&\quad m_2 \big( l_2^2 \dot{\theta}_2 + l_1 l_2 \dot{\theta}_1 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + m_3 \Big( l_2^2 \dot{\theta}_2 + l_1 l_2 \dot{\theta}_1 \cos(\theta_1 - \theta_2) + l_2 l_3 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \Big)
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta}_2} \right) = \frac{d}{dt} \biggl[
+    & m_2 \big( l_2^2 \dot{\theta}_2 + l_1 l_2 \dot{\theta}_1 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + m_3 \Big( l_2^2 \dot{\theta}_2 + l_1 l_2 \dot{\theta}_1 \cos(\theta_1 - \theta_2) + l_2 l_3 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \Big) \biggr]
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta}_2} \right) = 
+    & m_2 \Big( l_2^2 \ddot{\theta}_2 + l_1 l_2 \big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2) \big) \Big) \\
+    &\quad + m_3 \Big( l_2^2 \ddot{\theta}_2 \\
+    &\qquad\quad + l_1 l_2 \big(\ddot{\theta}_1 \cos(\theta_1 - \theta_2) - \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2)\big) \\
+    &\qquad\quad + l_2 l_3 \big (\ddot{\theta}_3 \cos(\theta_2 - \theta_3) - \dot{\theta}_3 \sin(\theta_2 - \theta_3)(\dot{\theta}_2 - \dot{\theta}_3) \big) \Big)
+\end{align*}
+
+\[ \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_2}} \right) - \frac{\partial L}{\partial \theta_2} = 0 \]
+
+\begin{align*}
+  0 =&\quad m_2 \Big( l_2^2 \ddot{\theta}_2 + l_1 l_2 \big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2) \big) \Big) \\
+    &\quad + m_3 \Big( l_2^2 \ddot{\theta}_2 \\
+    &\qquad\quad + l_1 l_2 \big(\ddot{\theta}_1 \cos(\theta_1 - \theta_2) - \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2)\big) \\
+    &\qquad\quad + l_2 l_3 \big(\ddot{\theta}_3 \cos(\theta_2 - \theta_3) - \dot{\theta}_3 \sin(\theta_2 - \theta_3)(\dot{\theta}_2 - \dot{\theta}_3) \big) \Big) \\
+    &\quad- \Biggl(m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\qquad\quad+ m_3 \Big(l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\qquad\qquad\quad - l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \Big) \\
+    &\qquad\quad+ g \Big( m_2 l_2 (-\sin\theta_2) + m_3 l_2 (-\sin\theta_2) \Big) \Biggr)
+\end{align*}
+
+\begin{align*}
+  0 =&\quad m_2 l_2^2 \ddot{\theta}_2 + m_2 l_1 l_2 \big( \ddot{\theta}_1 \cos(\theta_1 - \theta_2) - \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2) \big) \\
+    &\quad + m_3 l_2^2 \ddot{\theta}_2 + m_3 l_1 l_2 \big(\ddot{\theta}_1 \cos(\theta_1 - \theta_2) - \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2)\big) \\
+    &\qquad\quad + m_3 l_2 l_3 \big(\ddot{\theta}_3 \cos(\theta_2 - \theta_3) - \dot{\theta}_3 \sin(\theta_2 - \theta_3)(\dot{\theta}_2 - \dot{\theta}_3) \big) \\
+    &\quad- m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\qquad\quad - m_3 \Big(l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\qquad\qquad\quad - l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \Big) \\
+    &\qquad\quad - g \Big( m_2 l_2 (-\sin\theta_2) + m_3 l_2 (-\sin\theta_2) \Big)
+\end{align*}
+
+\begin{align*}
+  0 =&\quad m_2 l_2^2 \ddot{\theta}_2 \\
+    &\quad + m_2 l_1 l_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) \\
+    &\quad - m_2 l_1 l_2 \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2) \\
+    &\quad + m_3 l_2^2 \ddot{\theta}_2 \\
+    &\quad + m_3 l_1 l_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) \\
+    &\quad - m_3 l_1 l_2 \dot{\theta}_1 \sin(\theta_1 - \theta_2)(\dot{\theta}_1 - \dot{\theta}_2) \\
+    &\quad + m_3 l_2 l_3 \ddot{\theta}_3 \cos(\theta_2 - \theta_3) \\
+    &\quad - m_3 l_2 l_3 \dot{\theta}_3 \sin(\theta_2 - \theta_3)(\dot{\theta}_2 - \dot{\theta}_3) \\
+    &\quad - m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\quad - m_3 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\quad + m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &\quad + g (m_2 + m_3) l_2 (\sin\theta_2)
+\end{align*}
+
+\begin{align*}
+  0 =&\quad m_2 l_2^2 \ddot{\theta}_2 \\
+    &\quad + m_2 l_1 l_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) \\
+    &\quad - m_2 l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) \\
+    &\quad + m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\quad - m_2 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\quad + m_3 l_2^2 \ddot{\theta}_2 \\
+    &\quad + m_3 l_1 l_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) \\
+    &\quad - m_3 l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) \\
+    &\quad + m_3 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\quad - m_3 l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \sin(\theta_1 - \theta_2) \\
+    &\quad + m_3 l_2 l_3 \ddot{\theta}_3 \cos(\theta_2 - \theta_3) \\
+    &\quad + m_3 l_2 l_3 \dot{\theta}_3^2 \sin(\theta_2 - \theta_3) \\
+    &\quad + m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &\quad - m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &\quad + g (m_2 + m_3) l_2 (\sin\theta_2)
+\end{align*}
+
+\begin{align*}
+    0 =&\quad l_2^2 \ddot{\theta}_2 (m_2 + m_3) \\
+    &\quad + l_1 l_2 \ddot{\theta}_1 (m_2 + m_3) \cos(\theta_1 - \theta_2) \\
+    &\quad + m_3 l_2 l_3 \ddot{\theta}_3 \cos(\theta_2 - \theta_3) \\
+    &\quad - l_1 l_2 (m_2 + m_3)\dot{\theta}_1^2 \sin(\theta_1 - \theta_2) \\
+    &\quad + m_3 l_2 l_3 \dot{\theta}_3^2 \sin(\theta_2 - \theta_3) \\
+    &\quad + g (m_2 + m_3) l_2 (\sin\theta_2)
+\end{align*}
+
+Solution for $\theta_2$:
+\begin{align*}
+    (m_2 + m_3) l_2^2 \ddot{\theta}_2 &+ (m_2 + m_3) l_1 l_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) \\
+    + m_3 l_2 l_3 \ddot{\theta}_3 \cos(\theta_2 - \theta_3) &= (m_2 + m_3) l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) \\
+    \quad - m_3 l_2 l_3 \dot{\theta}_3^2 \sin(\theta_2 - \theta_3) &- g l_2 (m_2 + m_3) (\sin\theta_2)
+\end{align*}
+
+\subsection{For $\theta_3$}
+
+\[ \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_3}} \right) - \frac{\partial L}{\partial \theta_3} = 0 \]
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_3} = \frac{\partial}{\partial \theta_3} \Biggl[
+    &\frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + l_3^2 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big) \Biggr]
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_3} = 
+    &\quad + \frac{1}{2} m_3 \big(2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 (- \sin(\theta_1 - \theta_3) \cdot -1) \\
+        &\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 (- \sin(\theta_2 - \theta_3) \cdot -1) \big) \\
+    &\quad + g \big( m_3 (-l_3 \sin\theta_3) \big)
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \theta_3} = 
+    &\quad m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+    &\quad + m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &\quad - g m_3 l_3 \sin\theta_3
+\end{align*}
+
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_3} = \frac{\partial}{\partial \dot\theta_3} \Biggl[
+    &\frac{1}{2} m_1 l_1^2 \dot{\theta}_1^2 \\
+    &\quad + \frac{1}{2} m_2 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \big) \\
+    &\quad + \frac{1}{2} m_3 \big( l_1^2 \dot{\theta}_1^2 + l_2^2 \dot{\theta}_2^2 + l_3^2 \dot{\theta}_3^2 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_2 \dot{\theta}_1 \dot{\theta}_2 \cos(\theta_1 - \theta_2) \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \cos(\theta_2 - \theta_3) \big) \\
+    &\quad + g \big( m_1 (y_0 + l_1 \cos\theta_1) \\
+        &\qquad\quad + m_2 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2) \\
+        &\qquad\quad + m_3 (y_0 + l_1 \cos\theta_1 + l_2 \cos\theta_2 + l_3 \cos\theta_3) \big) \Biggr]
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_3} =
+    &\quad \frac{1}{2} m_3 \big(2 \cdot l_3^2 \dot{\theta}_3 \\
+        &\qquad\qquad\quad + 2 \cdot l_1 l_3 \dot{\theta}_1 \cos(\theta_1 - \theta_3) \\
+        &\qquad\qquad\quad + 2 \cdot l_2 l_3 \dot{\theta}_2 \cos(\theta_2 - \theta_3) \big) \\
+\end{align*}
+
+\begin{align*}
+    \frac{\partial L}{\partial \dot\theta_3} =
+    &\quad m_3  l_3^2 \dot{\theta}_3 + m_3 l_1 l_3 \dot{\theta}_1 \cos(\theta_1 - \theta_3) + m_3 l_2 l_3 \dot{\theta}_2 \cos(\theta_2 - \theta_3) \\
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta}_3} \right) = \frac{d}{dt} \biggl[
+    m_3  l_3^2 \dot{\theta}_3 + m_3 l_1 l_3 \dot{\theta}_1 \cos(\theta_1 - \theta_3) + m_3 l_2 l_3 \dot{\theta}_2 \cos(\theta_2 - \theta_3) \biggr] \\
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta}_3} \right) = \biggl[
+    & \, m_3  l_3^2 \ddot{\theta}_3 \\
+    &+ m_3 l_1 l_3 \big( \ddot{\theta}_1 \cos(\theta_1 - \theta_3) - \dot{\theta}_1 \sin(\theta_1 - \theta_3)(\dot{\theta}_1 - \dot{\theta}_3) \big) \\
+    &+ m_3 l_2 l_3 \big( \ddot{\theta}_2 \cos(\theta_2 - \theta_3) - \dot{\theta}_2 \sin(\theta_2 - \theta_3)(\dot{\theta}_2 - \dot{\theta}_3) \big)\biggr] \\
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta}_3} \right) = \biggl[
+    & \, m_3  l_3^2 \ddot{\theta}_3 \\
+    &+ m_3 l_1 l_3 \ddot{\theta}_1 \cos(\theta_1 - \theta_3) \\
+    &- m_3 l_1 l_3 \dot{\theta}_1 \sin(\theta_1 - \theta_3)(\dot{\theta}_1 - \dot{\theta}_3) \big) \\
+    &+ m_3 l_2 l_3 \ddot{\theta}_2 \cos(\theta_2 - \theta_3) \\
+    &- m_3 l_2 l_3 \dot{\theta}_2 \sin(\theta_2 - \theta_3)(\dot{\theta}_2 - \dot{\theta}_3) \big)\biggr] \\
+\end{align*}
+
+\begin{align*}
+    \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta}_3} \right) = \biggl[
+    & \, m_3  l_3^2 \ddot{\theta}_3 \\
+    &+ m_3 l_1 l_3 \ddot{\theta}_1 \cos(\theta_1 - \theta_3) \\
+    &- m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) \\
+    &+ m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+    &+ m_3 l_2 l_3 \ddot{\theta}_2 \cos(\theta_2 - \theta_3) \\
+    &- m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) \\
+    &+ m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \biggr] \\
+\end{align*}
+
+\[ \frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_3}} \right) - \frac{\partial L}{\partial \theta_3} = 0 \]
+
+\begin{align*}
+    0 = \quad &m_3  l_3^2 \ddot{\theta}_3 \\
+    &+ m_3 l_1 l_3 \ddot{\theta}_1 \cos(\theta_1 - \theta_3) \\
+    &- m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) \\
+    &+ m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+    &+ m_3 l_2 l_3 \ddot{\theta}_2 \cos(\theta_2 - \theta_3) \\
+    &- m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) \\
+    &+ m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &- \Biggl[m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) + m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &- g m_3 l_3 \sin\theta_3 \Biggr]
+\end{align*}
+
+\begin{align*}
+    0 = \quad &m_3  l_3^2 \ddot{\theta}_3 \\
+    &+ m_3 l_1 l_3 \ddot{\theta}_1 \cos(\theta_1 - \theta_3) \\
+    &- m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) \\
+    &+ m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+    &+ m_3 l_2 l_3 \ddot{\theta}_2 \cos(\theta_2 - \theta_3) \\
+    &- m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) \\
+    &+ m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &- m_3 l_1 l_3 \dot{\theta}_1 \dot{\theta}_3 \sin(\theta_1 - \theta_3) \\
+    &- m_3 l_2 l_3 \dot{\theta}_2 \dot{\theta}_3 \sin(\theta_2 - \theta_3) \\
+    &+ g m_3 l_3 \sin\theta_3
+\end{align*}
+
+Solution for $\theta_3$
+\begin{align*}
+    m_3  l_3^2 \ddot{\theta}_3 &+ m_3 l_1 l_3 \ddot{\theta}_1 \cos(\theta_1 - \theta_3) \\
+    + \, m_3 l_2 l_3 \ddot{\theta}_2 \cos(\theta_2 - \theta_3) &= m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) \\
+    + m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) &- g m_3 l_3 \sin\theta_3
+\end{align*}
+
+\subsection{System of equations}
+
+$$
+\left\{
+\begin{aligned}
+\frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_1}} \right) - \frac{\partial L}{\partial \theta_1} = 0 \\[1em]
+\frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_2}} \right) - \frac{\partial L}{\partial \theta_2} = 0 \\[1em]
+\frac{d}{dt} \left( \frac{\partial L}{\partial \dot{\theta_3}} \right) - \frac{\partial L}{\partial \theta_3} = 0 \\[1em]
+\end{aligned}
+\right.
+$$
+
+$$
+\left\{
+\begin{aligned}
+    &(m_1 + m_2 + m_3) l_1^2 \ddot{\theta}_1 + (m_2 + m_3) l_1 l_2 \ddot{\theta}_2 \cos(\theta_1 - \theta_2) + m_3 l_1 l_3 \ddot{\theta}_3 \cos(\theta_1 - \theta_3) \\
+    &\quad = -(m_2 + m_3) l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) - m_3 l_1 l_3 \dot{\theta}_3^2 \sin(\theta_1 - \theta_3) - g l_1 (m_1 + m_2 + m_3) \sin\theta_1 \\[1em]
+    &(m_2 + m_3) l_2^2 \ddot{\theta}_2 + (m_2 + m_3) l_1 l_2 \ddot{\theta}_1 \cos(\theta_1 - \theta_2) + m_3 l_2 l_3 \ddot{\theta}_3 \cos(\theta_2 - \theta_3) \\
+    &\quad = (m_2 + m_3) l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) - m_3 l_2 l_3 \dot{\theta}_3^2 \sin(\theta_2 - \theta_3) - g l_2 (m_2 + m_3) \sin\theta_2 \\[1em]
+    &m_3 l_3^2 \ddot{\theta}_3 + m_3 l_1 l_3 \ddot{\theta}_1 \cos(\theta_1 - \theta_3) + m_3 l_2 l_3 \ddot{\theta}_2 \cos(\theta_2 - \theta_3) \\
+    &\quad = m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) + m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) - g m_3 l_3 \sin\theta_3
+\end{aligned}
+\right.
+$$
+
+Equivalent as a matrix multiplication
+
+$$
+\begin{aligned}
+    &\begin{pmatrix}
+        (m_1 + m_2 + m_3) l_1^2 & (m_2 + m_3) l_1 l_2 \cos(\theta_1 - \theta_2) & m_3 l_1 l_3 \cos(\theta_1 - \theta_3) \\[1ex]
+        (m_2 + m_3) l_1 l_2 \cos(\theta_1 - \theta_2) & (m_2 + m_3) l_2^2 & m_3 l_2 l_3 \cos(\theta_2 - \theta_3) \\[1ex]
+        m_3 l_1 l_3 \cos(\theta_1 - \theta_3) & m_3 l_2 l_3 \cos(\theta_2 - \theta_3) & m_3 l_3^2 
+    \end{pmatrix}
+    \begin{pmatrix}
+        \ddot{\theta}_1 \\[1ex]
+        \ddot{\theta}_2 \\[1ex]
+        \ddot{\theta}_3
+    \end{pmatrix} \\[2ex]
+    &\quad = 
+    \begin{pmatrix}
+        -(m_2 + m_3) l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) - m_3 l_1 l_3 \dot{\theta}_3^2 \sin(\theta_1 - \theta_3) - g l_1 (m_1 + m_2 + m_3) \sin\theta_1 \\[1ex]
+        (m_2 + m_3) l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) - m_3 l_2 l_3 \dot{\theta}_3^2 \sin(\theta_2 - \theta_3) - g l_2 (m_2 + m_3) \sin\theta_2 \\[1ex]
+        m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) + m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) - g m_3 l_3 \sin\theta_3
+    \end{pmatrix}
+\end{aligned}
+$$
 
 \end{document}
