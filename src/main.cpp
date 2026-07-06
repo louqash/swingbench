@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Sleep.hpp>
 #include <chrono>
+#include <limits>
+#include <iostream>
 
 #include "pendulum.hpp"
 #include "renderer.hpp"
@@ -20,7 +22,7 @@ int main()
   // cmake/patch_sfml_highdpi.cmake), X11 gives 1x
   float ui_scale = static_cast<float>(window.getSize().x) / WINDOW_SIZE_POINTS.x;
 
-  Pendulum main_pendulum(2);
+  Pendulum main_pendulum(3);
   Renderer renderer(window, PIXELS_PER_METER * ui_scale, ui_scale);
 
   sf::Clock clock; // starts the clock

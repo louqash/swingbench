@@ -184,11 +184,11 @@ void Renderer::drawPendulum(const Pendulum& pendulum) {
     trail_.pop_front();
 
   // Ceiling mount: a short bar above the pivot.
-  sf::RectangleShape mount({px(MOUNT_W), px(MOUNT_H)});
-  mount.setOrigin({px(MOUNT_W) / 2.f, px(MOUNT_H) / 2.f});
-  mount.setPosition({pivot_.x, pivot_.y - px(MOUNT_LIFT)});
-  mount.setFillColor(HINGE_COLOR);
-  window_.draw(mount);
+  // sf::RectangleShape mount({px(MOUNT_W), px(MOUNT_H)});
+  // mount.setOrigin({px(MOUNT_W) / 2.f, px(MOUNT_H) / 2.f});
+  // mount.setPosition({pivot_.x, pivot_.y - px(MOUNT_LIFT)});
+  // mount.setFillColor(HINGE_COLOR);
+  // window_.draw(mount);
 
   // Arms as thick rotated rectangles.
   for (std::size_t i = 0; i < pendulum.n_segments(); ++i) {
