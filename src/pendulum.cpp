@@ -205,12 +205,12 @@ void Pendulum::step_3(double dt) {
 
   std::array<double, 3> r1 = gausian_elimination(M1, v1);
 
+  auto angles_2 = advance_angle(angles, angular_velocities, dt_2);
   auto omega_2 = advance_omega(
     angular_velocities,
     std::vector<double>(std::begin(r1), std::end(r1)),
     dt_2
   );
-  auto angles_2 = advance_angle(angles, omega_2, dt_2);
   auto M2 = generate_M(
     masses,
     lengths,
@@ -225,32 +225,32 @@ void Pendulum::step_3(double dt) {
 
   std::array<double, 3> r2 = gausian_elimination(M2, v2);
 
+  auto angles_3 = advance_angle(angles, omega_2, dt_2);
   auto omega_3 = advance_omega(
     angular_velocities,
     std::vector<double>(std::begin(r2), std::end(r2)),
     dt_2
   );
-  auto angles_3 = advance_angle(angles, omega_3, dt_2);
   auto M3 = generate_M(
     masses,
     lengths,
-    angles_2
+    angles_3
   );
   auto v3 = generate_v(
     masses,
     lengths,
-    angles_2,
+    angles_3,
     omega_3
   );
 
   std::array<double, 3> r3 = gausian_elimination(M3, v3);
 
+  auto angles_4 = advance_angle(angles, omega_3, dt);
   auto omega_4 = advance_omega(
     angular_velocities,
     std::vector<double>(std::begin(r3), std::end(r3)),
     dt
   );
-  auto angles_4 = advance_angle(angles, omega_4, dt);
   auto M4 = generate_M(
     masses,
     lengths,
