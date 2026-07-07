@@ -1,0 +1,96 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{lmodern}
+\usepackage{tikz}
+\setcounter{secnumdepth}{0}
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\fontsize{16}{19.2}\selectfont\bfseries Euler--Lagrange equation generalisation for n arm pendulum}
+\end{center}
+
+\section{General equation format}
+
+\begin{align}
+    M \cdot \vec{\ddot{\theta}} = \vec{h}
+\end{align}
+
+\section{Matrix $M$}
+\subsection{Derived equation for 2 arm pendulum}
+\begin{align}
+    \begin{pmatrix}
+        (m_1 + m_2) l_1^2 & m_2 l_1 l_2 \cos(\theta_1 - \theta_2) \\
+        m_2 l_1 l_2 \cos(\theta_1 - \theta_2) & m_2 l_2^2
+    \end{pmatrix}
+\end{align}
+
+\subsection{Derived equation for 3 arm pendulum}
+\begin{align}
+    \begin{pmatrix}
+        (m_1 + m_2 + m_3) l_1^2 & (m_2 + m_3) l_1 l_2 \cos(\theta_1 - \theta_2) & m_3 l_1 l_3 \cos(\theta_1 - \theta_3) \\
+        (m_2 + m_3) l_1 l_2 \cos(\theta_1 - \theta_2) & (m_2 + m_3) l_2^2 & m_3 l_2 l_3 \cos(\theta_2 - \theta_3) \\
+        m_3 l_1 l_3 \cos(\theta_1 - \theta_3) & m_3 l_2 l_3 \cos(\theta_2 - \theta_3) & m_3 l_3^2  \\
+    \end{pmatrix}
+\end{align}
+
+\begin{align}
+    \begin{pmatrix}
+        (m_1 + m_2 + m_3) l_1 l_1 \cos(\theta_1 - \theta_1) & (m_2 + m_3) l_1 l_2 \cos(\theta_1 - \theta_2) & m_3 l_1 l_3 \cos(\theta_1 - \theta_3) \\
+        (m_2 + m_3) l_1 l_2 \cos(\theta_1 - \theta_2) & (m_2 + m_3) l_2 l_2 \cos(\theta_2 - \theta_2) & m_3 l_2 l_3 \cos(\theta_2 - \theta_3) \\
+        m_3 l_1 l_3 \cos(\theta_1 - \theta_3) & m_3 l_2 l_3 \cos(\theta_2 - \theta_3) & m_3 l_3 l_3 \cos(\theta_3 - \theta_3)  \\
+    \end{pmatrix}
+\end{align}
+
+\subsection{In General}
+$$
+M_{ij} = \Big( \sum_{k = \max(i,j)}^{n}{m_k} \Big) l_i l_j \cos(\theta_i - \theta_j)
+$$
+
+\section{Vector $\vec{h}$}
+
+\subsection{Derived equation for 2 arm pendulum}
+\begin{align}
+    \begin{pmatrix}
+    - m_2 l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) - g l_1 (m_1 + m_2) \sin\theta_1  \\
+    m_2 l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) - m_2 g l_2 \sin\theta_2
+    \end{pmatrix}
+\end{align}
+
+\subsection{Derived equation for 3 arm pendulum}
+\begin{align}
+    \begin{pmatrix}
+        -(m_2 + m_3) l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) - m_3 l_1 l_3 \dot{\theta}_3^2 \sin(\theta_1 - \theta_3) - g l_1 (m_1 + m_2 + m_3) \sin\theta_1 \\[1ex]
+        (m_2 + m_3) l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) - m_3 l_2 l_3 \dot{\theta}_3^2 \sin(\theta_2 - \theta_3) - g l_2 (m_2 + m_3) \sin\theta_2 \\[1ex]
+        m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) + m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) - g m_3 l_3 \sin\theta_3
+    \end{pmatrix}
+\end{align}
+
+Reordering arguments in sin to make those terms positive and adding missing terms for $\sin(0)$
+
+\begin{align}
+\begin{pmatrix}
+\begin{aligned}
+    &(m_1 + m_2 + m_3) l_1 l_1 \dot{\theta}_1^2 \sin(\theta_1 - \theta_1) -(m_2 + m_3) l_1 l_2 \dot{\theta}_2^2 \sin(\theta_1 - \theta_2) - m_3 l_1 l_3 \dot{\theta}_3^2 \sin(\theta_1 - \theta_3) \\
+    &- g l_1 (m_1 + m_2 + m_3) \sin\theta_1
+\end{aligned} \\[4ex]
+\begin{aligned}
+    &(m_2 + m_3) l_1 l_2 \dot{\theta}_1^2 \sin(\theta_1 - \theta_2) + (m_2 + m_3) l_2 l_2 \dot{\theta}_2^2 \sin(\theta_2 - \theta_2) - m_3 l_2 l_3 \dot{\theta}_3^2 \sin(\theta_2 - \theta_3) \\
+    &- g l_2 (m_2 + m_3) \sin\theta_2
+\end{aligned} \\[4ex]
+\begin{aligned}
+    &m_3 l_1 l_3 \dot{\theta}_1^2 \sin(\theta_1 - \theta_3) + m_3 l_2 l_3 \dot{\theta}_2^2 \sin(\theta_2 - \theta_3) + m_3 l_3 l_3 \dot{\theta}_3^2 \sin(\theta_3 - \theta_3) \\ &
+    - g l_3 m_3 \sin\theta_3
+\end{aligned}
+\end{pmatrix}
+\end{align}
+
+\subsection{In General}
+
+\begin{align}
+    \vec{h}_i = \Bigg( \sum_{k = 1}^{n} \Big( \sum_{l = \max(i, k)}^{n} m_l \Big) l_i l_k \dot{\theta}_k^2 \sin(\theta_k - \theta_i) \Bigg) - g \Big( \sum_{k = i}^{n}{m_k} \Big) l_i \sin(\theta_i)
+\end{align}
+
+\end{document}
