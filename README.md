@@ -4,13 +4,24 @@ An n-arm pendulum simulator written from scratch in C++, with a little SFML
 window so you can watch it swing.
 
 This is a learning project. I'm using it to work through Lagrangian mechanics
-properly (deriving the equations of motion by hand — see
-[euler_lagrange_derivation_2_arms.pdf](euler_lagrange_derivation_2_arms.pdf),
-source in [the .tex file](euler_lagrange_derivation_2_arms.tex); rebuild with
-`latexmk -pdf`) and, over time,
+properly (deriving the equations of motion by hand — see the write-ups in
+[`math/`](math/)) and, over time,
 to practise performance-oriented numerical C++: integrators, floating-point
 behaviour, dense linear algebra, SIMD, threading, benchmarking. The simulator
 is mostly an excuse to have a concrete problem to do all of that on.
+
+## The maths
+
+Hand-derived equations of motion, worked out step by step in `math/`:
+
+- [2 arms](math/euler_lagrange_derivation_2_arms.pdf) — the double pendulum,
+  where it all started
+- [3 arms](math/euler_lagrange_derivation_3_arms.pdf) — same approach, one
+  more arm, and the pattern starts to show
+- [n arms](math/euler_lagrange_generalisation.pdf) — the generalisation: mass
+  matrix form for arbitrary n
+
+The `.tex` sources sit next to the PDFs; rebuild with `math/build.sh`.
 
 ## What it does right now
 
@@ -53,6 +64,7 @@ include/pendulum.hpp   pendulum state + physics interface
 src/pendulum.cpp       equations of motion, RK4 step, energy
 src/renderer.cpp       all the SFML drawing
 src/main.cpp           window + main loop
+math/                  the derivations (LaTeX + PDFs)
 ```
 
 The physics lives in its own little library (`pendulum`) with no rendering
