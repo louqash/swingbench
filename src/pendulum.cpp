@@ -85,6 +85,25 @@ std::vector<double> gausian_elimination(
   size_t N = h.size();
 
   for (size_t column = 0; column < N-1; column++) {
+    // partial pivoting
+    size_t largest_index = column;
+    double largest_value = std::abs(M[largest_index*N + column]);
+    for (size_t row = column+1; row < N; row++) {
+      if (largest_value < std::abs(M[row*N + column])) {
+        largest_value = std::abs(M[row*N + column]);
+        largest_index = row;
+      }
+    }
+    // swap the pivot
+    for (size_t el = 0; el < N; el++) {
+      double _tmp = M[largest_index*N + el];
+      M[largest_index*N + el] = M[column*N + el];
+      M[column*N + el] = _tmp;
+    }
+    double _tmp = h[largest_index];
+    h[largest_index] = h[column];
+    h[column] = _tmp;
+
     for (size_t row = column+1; row < N; row++) {
       double r = M[row*N + column] / M[column*N + column];
       h[row] = h[row] - r * h[column];
@@ -95,7 +114,7 @@ std::vector<double> gausian_elimination(
   }
 
   std::vector<double> results(N);
-  for (int variable = N-1; variable >= 0; variable--) {
+  for (size_t variable = N; variable-- > 0; ) {
     double result = h[variable];
     for (size_t i = N-1; i > variable; i--) {
       result -= results[i] * M[variable*N + i];
