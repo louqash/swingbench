@@ -10,6 +10,8 @@ to practise performance-oriented numerical C++: integrators, floating-point
 behaviour, dense linear algebra, SIMD, threading, benchmarking. The simulator
 is mostly an excuse to have a concrete problem to do all of that on.
 
+![A 6-arm run; the energy readout is the correctness check](docs/six-arm-run.png)
+
 ## The maths
 
 Hand-derived equations of motion, worked out step by step in `math/`:
@@ -25,8 +27,10 @@ The `.tex` sources sit next to the PDFs; rebuild with `math/build.sh`.
 
 ## What it does right now
 
-- Simulates a double pendulum (absolute angles as generalized coordinates),
+- Simulates an n-arm pendulum (absolute angles as generalized coordinates),
   starting from random initial angles.
+- Each step builds the mass matrix and solves for the angular accelerations
+  with Gaussian elimination (partial pivoting).
 - Integrates the equations of motion with classic RK4. There was an explicit
   Euler version first; the energy drift was bad enough to justify the upgrade.
 - Renders with SFML: the arms, a fading trail on the tip, a background grid,
@@ -69,16 +73,3 @@ math/                  the derivations (LaTeX + PDFs)
 
 The physics lives in its own little library (`pendulum`) with no rendering
 dependencies, so it can be tested and benchmarked on its own later.
-
-## Rough plan
-
-In no particular hurry:
-
-- generalize from 2 arms to n (mass matrix + linear solve per step)
-- compare integrators and float precisions, put numbers on the drift
-- batch many pendulums, then vectorise and thread the batch
-- benchmark it honestly against a roofline
-- maybe expose it to PyTorch as a custom op at the end
-
-No promises on any of it — the point is what I learn on the way, not the
-binary.
