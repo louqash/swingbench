@@ -105,7 +105,7 @@ Renderer::Renderer(sf::RenderWindow& window, float pixels_per_meter,
                    float ui_scale)
     : window_(window), ppm_(pixels_per_meter), ui_(ui_scale) {
   // Center the pivot in the world area left of the HUD panel.
-  pivot_ = {px(PANEL_X - WORLD_RIGHT_PAD) / 2.f, window_.getSize().y / 2.f};
+  pivot_ = {px(PANEL_X - WORLD_RIGHT_PAD) / 2.f, window_.getSize().y / 4.f};
 
   for (const char* path : FONT_CANDIDATES) {
     if (font_.openFromFile(path)) {

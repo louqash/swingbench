@@ -22,7 +22,7 @@ int main()
   // cmake/patch_sfml_highdpi.cmake), X11 gives 1x
   float ui_scale = static_cast<float>(window.getSize().x) / WINDOW_SIZE_POINTS.x;
 
-  Pendulum main_pendulum(3);
+  Pendulum main_pendulum(6);
   Renderer renderer(window, PIXELS_PER_METER * ui_scale, ui_scale);
 
   sf::Clock clock; // starts the clock
